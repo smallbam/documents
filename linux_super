@@ -1,0 +1,73 @@
+cron执行时，也就是要读取三个地方的配置文件：一是/etc/crontab，二是/etc/cron.d目录下的所有文件，三是每个用户的配置文件.
+
+cat /etc/logrotate.d/mongodlog 
+/var/log/mongodb/mongod.log{
+copytruncate
+create 644 root root
+daily
+rotate 7
+compress
+compressoptions -9
+minsize 10M
+size=10M
+}
+
+
+
+cat /etc/logrotate.d/mongodlog 
+/var/log/mongodb/mongod.log{
+copytruncate
+create 644 root root
+daily
+rotate 7
+compress
+compressoptions -9
+minsize 10M
+size=10M
+}
+
+
+
+查看当前用户
+whoami
+查看登陆用户
+who
+查看用户组
+groups username
+
+uname -a
+head -n 1 /etc/issue
+cat /proc/cpuinfo
+hostname
+df -h
+netstat -intp
+netstat -ntupl
+chkconfig --list
+iptables -l
+iptables -L
+
+
+使用jsvc停止tomcat
+/usr/local/tomcat_8080/bin//jsvc -java-home /usr/local/jdk -stop -pidfile /usr/local/tomcat_8080/logs/catalina-daemon.pid org.apache.catalina.startup.Bootstrap
+启动tomcat
+/etc/init.d/tomcat-8080 start
+关闭tomcat
+/etc/init.d/tomcat-8080 stop
+查看tomcat版本
+/etc/init.d/tomcat-8080 version
+
+查看java程序
+ps auwx | grep java
+
+
+检查nginx配置
+/usr/local/nginx/sbin/nginx -t
+启动nginx
+/usr/local/nginx/sbin/nginx -c /usr/local/nginx/conf/nginx.conf
+关闭nginx
+/usr/local/nginx/sbin/nginx -s quit
+重新加载nginx配置
+/usr/local/nginx/sbin/nginx -s reload
+
+netstat -ntupl
+ps axw -o pid,ppid,user,%cpu,vsz,wchan,command | egrep '(nginx|PID)'

@@ -1,0 +1,156 @@
+@see https://docs.mongodb.org/manual/
+
+1.Install MongoDB From Tarball (@see https://docs.mongodb.org/manual/tutorial/install-mongodb-on-linux/)
+  curl -O https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-3.2.3.tgz
+  tar -zxvf mongodb-linux-x86_64-3.2.3.tgz
+  mv mongodb-linux-x86_64-3.2.3 /usr/local/mongodb
+  mkdir -p /var/log/mongodb
+  vi /etc/mongod.conf  ＃config by yourself
+  mkdir -p /data/mongodb/db
+  vi ~/.bash_profile   #alias startmogodb="numactl --interleave=all /usr/local/mongodb/bin/mongod --config=/etc/mongod.conf"
+  source ~/.bash_profile
+  startmogodb  #启动mongodb
+
+1.MongoDB is an open-source document database that provides high performance, high availability, and automatic scaling. MongoDB obviates the need for an Object Relational Mapping (ORM) to facilitate development.
+
+{
+   "_id" : ObjectId("54c955492b7c8eb21818bd09"),
+   "address" : {
+      "street" : "2 Avenue",
+      "zipcode" : "10075",
+      "building" : "1480",
+      "coord" : [ -73.9557413, 40.7720266 ],
+   },
+   "borough" : "Manhattan",
+   "cuisine" : "Italian",
+   "grades" : [
+      {
+         "date" : ISODate("2014-10-01T00:00:00Z"),
+         "grade" : "A",
+         "score" : 11
+      },
+      {
+         "date" : ISODate("2014-01-16T00:00:00Z"),
+         "grade" : "B",
+         "score" : 17
+      }
+   ],
+   "name" : "Vella",
+   "restaurant_id" : "41704620"
+}
+
+2.A record in MongoDB is a document, which is a data structure composed of field and value pairs. MongoDB documents are similar to JSON objects. The values of fields may include other documents, arrays, and arrays of documents.
+
+3.MongoDB stores documents in collections. Collections are analogous to tables in relational databases. Unlike a table, however, a collection does not require its documents to have the same schema.
+In MongoDB, documents stored in a collection must have a unique _id field that acts as a primary key.
+
+4.Manual Installation
+For Linux systems without supported packages, MongoDB provides a generic Linux release. These versions of MongoDB don’t include TLS/SSL, and may not perform as well as the targeted packages, but are compatible on most contemporary Linux systems. See the following guides for installation:
+Install MongoDB From Tarball(@see https://docs.mongodb.org/getting-started/shell/tutorial/install-mongodb-on-linux/)
+    Install the official build of MongoDB Community Edition on other Linux systems from MongoDB archives. 
+Ensure the location of the binaries is in the PATH variable.
+The MongoDB binaries are in the bin/ directory of the archive. To ensure that the binaries are in your PATH, you can modify your PATH.
+For example, you can add the following line to your shell’s rc file (e.g. ~/.bashrc):
+export PATH=<mongodb-install-directory>/bin:$PATH
+Replace <mongodb-install-directory> with the path to the extracted MongoDB archive.
+
+5.Run MongoDB.
+To run MongoDB, run the mongod process at the system prompt. If necessary, specify the path of the mongod or the data directory. See the following examples.
+Specify the path of the data directory
+If you do not use the default data directory (i.e., /data/db), specify the path to the data directory using the --dbpath option:
+mongod --dbpath <path to data directory>
+
+6.Import Example Dataset(@see https://docs.mongodb.org/getting-started/shell/import-data/)
+curl -0  https://raw.githubusercontent.com/mongodb/docs-assets/primer-dataset/dataset.json > rimer-dataset.json
+mongoimport --db test --collection restaurants --drop --file primer-dataset.json
+To import data into a mongod instance running on a different host or port, specify the hostname or port by including the --host and the --port options in your mongoimport command.
+
+7.MongoDB Shell(mongo)
+The mongo shell is an interactive JavaScript interface to MongoDB and is a component of the MongoDB package. You can use the mongo shell to query and update data as well as perform administrative operations.
+The mongo shell also provides <tab> key completion as well as keyboard shortcuts similar to those found in the bash shell or in Emacs. For example, you can use the <up-arrow> and the <down-arrow> to retrieve operations from its history.
+In the mongo shell, db is the variable that references the current database. The variable is automatically set to the default database test or is set when you use the use <db> to switch current database.
+
+8.Access the mongo Shell Help Information(@see https://docs.mongodb.org/manual/tutorial/access-mongo-shell-help/)
+To see the list of databases on the server, use the show dbs command:
+show dbs
+New in version 2.4: show databases is now an alias for show dbs
+To see the implementation of a method in the shell, type the db.<method name> without the parenthesis (()), as in the following example which will return the implementation of the method db.updateUser():
+db.updateUser
+To see the list of collections in the current database, use the show collections command:
+show collections
+
+9.Configuration File Options(@see https://docs.mongodb.org/manual/reference/configuration-options/)
+You can configure mongod and mongos instances at startup using a configuration file. The configuration file contains settings that are equivalent to the mongod and mongos command-line options.
+MongoDB configuration files use the YAML format.  (YAML: YAML Ain't Markup Language.YAML is a superset of JSON.)
+The following sample configuration file contains several mongod settings that you may adapt to your local configuration:
+Note
+YAML does not support tab characters for indention: use spaces instead.
+
+systemLog:
+   destination: file
+   path: "/var/log/mongodb/mongod.log"
+   logAppend: true
+storage:
+   journal:
+      enabled: true
+processManagement:
+   fork: true
+net:
+   bindIp: 127.0.0.1
+   port: 27017
+setParameter:
+   enableLocalhostAuthBypass: false
+...
+
+10.启动mongodb实例的命令：/usr/local/mongodb/bin/mongod --config /etc/mongod.conf
+===============================
+#mongoDB常用命令
+mongod --dbpath=/data/mongodb/db --httpinterface --rest
+db.stats()
+db.log.stats()
+db.runCommand( { serverStatus: 1, workingSet: 1 } )
+db.soldier.find({"_id" : ObjectId("5697a4cb01190b2b8f4e4abb")}).count()
+db.soldier.getIndexes()
+db.soldier.createIndex({uid : 1})
+db.soldier.dropIndex({uid : 1})
+
+db.soldier.find({insertedDate: {$lt: ISODate("2016-02-01 0:0:0")}}).count();
+db.soldier.remove({insertedDate: {$lt: ISODate("2016-02-01 0:0:0")}})
+db.action_server2_20160117.drop()
+
+db.soldier.find({uid: "395424766000002", time: {$gt: 1450777620796}, time: {$lt: 1455777620796}}).count()
+
+#######
+> db.soldier.count()
+1479485817 这么多数据查询就死翘翘了。xxsuper
+YAML: YAML Ain't Markup Language
+
+##mongodb的监控
+https://docs.mongodb.org/manual/administration/monitoring/
+一.和mongodb一起发布的实用工具：类似java提供的jps等
+1.mongostat
+2.mongotop
+
+init script
+    A simple shell script, typically located in the /etc/rc.d or /etc/init.d directory, and used by the system’s initialization process to start, restart or stop a daemon process.
+
+====================================
+停止MongoDB
+千万要强调的是千万不要使用kill -9去关闭mongod！这样数据库会不理一切直接杀死该进程，会使得数据文件损坏。
+稳妥的方法是使用kill -2 pid去关闭mongod，也就是当mongod进程接受到关闭指令后会等待当前运行操作或文件分配等操作完毕后，关闭所有打开的连接，并将缓存的数据刷新到磁盘后才正式关闭。
+最稳妥的方式是使用shutdown命令来结束
+> use admin
+switched to db admin
+> db.shutdownServer();
+然后使用top查看mongo进程是否存在。
+=====================================
+@see http://blog.nosqlfan.com/html/2772.html
+NUMA：NUMA是多核心CPU架构中的一种，其全称为Non-Uniform Memory Access，简单来说就是在多核心CPU中，机器的物理内存是分配给各个核的.
+每个核访问分配给自己的内存会比访问分配给其它核的内存要快，有下面几种访问控制策略：
+    1.缺省(default)：总是在本地节点分配（分配在当前进程运行的节点上）；
+    2.绑定(bind)：强制分配到指定节点上；
+    3.交叉(interleave)：在所有节点或者指定的节点上交织分配；
+    4.优先(preferred)：在指定节点上分配，失败则在其他节点上分配。
+上面文章中最后使用numactl –interleave命令就是指定其为交叉共享模式。
+
+

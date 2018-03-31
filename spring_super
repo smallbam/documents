@@ -1,0 +1,27 @@
+Spring supports a wide range of application scenarios.
+This has helped Spring to successfully evolve over a very long time.
+While some consider Java EE and Spring to be in competition, Spring is, in fact, complementary to Java EE.
+
+Spring lets you defer design decisions as late as possible
+Accommodate diverse perspectives.
+Maintain strong backward compatibility.
+The Spring team puts a lot of thought and time into making APIs that are intuitive and that hold up across many versions and many years.
+The Spring Framework puts a strong emphasis on meaningful, current, and accurate Javadoc.
+
+However, please keep in mind that, for all but the most trivial issues, we expect a ticket to be filed in the issue tracker, where discussions take place and leave a record for future reference.
+It is based on the Spring Framework, favors convention over configuration, and is designed to get you up and running as quickly as possible.
+
+The Spring Framework provides a comprehensive programming and configuration model for modern Java-based enterprise applications - on any kind of deployment platform. A key element of Spring is infrastructural support at the application level: Spring focuses on the "plumbing" of enterprise applications so that teams can focus on application-level business logic, without unnecessary ties to specific deployment environments.
+
+This guide walks you through the process of wrapping database operations with non-intrusive transactions.
+
+There are two major Gradle plugins for Eclipse: one created by SpringSource as part of the Spring Tool Suite and one called Buildship developed by Gradle Inc. Since Buildship became an eclipse.org project, the SpringSource developers are planning to phase out their tooling and switch to Buildship.
+The purpose of this document is to provide a comparison between STS Gradle and Buildship and to give precise steps on how to migrate from one tool to another.
+
+
+@Component
+#spring-context.xml
+	<!-- 对web包中的所有类进行扫描，以完成Bean创建和自动依赖注入的功能 -->
+	<context:component-scan base-package="cn.teddy.number_api" />
+	<context:component-scan base-package="cn.teddy.number_service" />
+@Autowired

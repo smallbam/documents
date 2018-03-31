@@ -1,0 +1,6 @@
+
+==========================================
+ 5482  5173 mysql    S     332m  2.0  0.0 /usr/bin/mysqld --basedir=/usr --datadir=/var/services/mysql --plugin-dir=/usr/lib/mysql/plugin --user=mysql --log-error=/var/services/mysql/DiskStation.err --pid-file=/run/mysqld/mysqld.pid --socket=/run/mysqld/mysqld.sock --port=3306
+==========================================
+mysql复制库表：
+mysqldump origDB -uUSERNAME -pPASSWORD --add-drop-database | mysql destDB -uUSERNAME -pPASSWORD

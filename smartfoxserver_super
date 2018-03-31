@@ -1,0 +1,39 @@
+Programming to interfaces (@see http://docs2x.smartfoxserver.com/Overview/using-the-documentation)
+
+In general, throughout the client and server API, you will notice that all important classes of the framework are backed by an interface. 
+For instance:
+
+SFSZone implements Zone
+SFSRoom implements Room
+SFSUser implements User
+SFSBuddy implements Buddy
+SFSObject implements ISFSObject
+SFSArray implements ISFSArray
+SFSRoomVariable implements RoomVariable
+SFSUserVariable implements UserVariable
+You will also notice that the whole framework uses these interfaces in almost each and every method signature or return type.
+
+We would like to encourage and emphasize the use of these interfaces in your code too. The reason is that this helps swapping different implementations easily and without side effects. In future release we might introduce new implementations to these interfaces which will affect your code minimally if you stick to this habit as much as possible.
+
+
+===========
+You’re comfortable with Java, you know its ins and outs, its moods.
+===========
+The world needs a new way of building software applications(@see http://www.typesafe.com/company)
+
+We believe the future of application development will embrace profound changes in expectation driven by experiences in our daily lives. Our phones are smart, our cars are getting smarter, and our applications are connecting us with people all over the world. Our appetite for immediacy is never satisfied. We expect to be connected continuously. We expect our applications to deliver whatever we need—instantly.
+
+These expectations are fueling a new class of Reactive application that is:
+
+    Responsive—rich and engaging, providing instant feedback based on user interactions.
+    Resilient—recovering and repairing itself automatically for seamless business continuity.
+    Elastic—on-demand, across cores, nodes, and clusters; scaling predictably and elastically.
+    Message Driven—processing messages in parallel, asynchronously, without blocking.
+
+More and more, companies across industries and around the globe are embracing the business imperative of going Reactive, and they are turning to Typesafe for help.
+Typesafe is delivering the world’s leading Reactive platform
+
+Typesafe is dedicated to helping developers build Reactive applications on the JVM. With the Typesafe Reactive Platform, including Play Framework, Akka, and Scala, developers can deliver highly responsive user experiences backed by a resilient and message driven application stack that scales effortlessly on multicore and cloud computing architectures.
+Dedicated to developers
+
+To make going Reactive easier for developers, we created Typesafe Activator, a browser-based tool with reusable templates and in-context training to jump-start Reactive application development.

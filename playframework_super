@@ -1,0 +1,10 @@
+The default configuration file of a Play application must be defined in conf/application.conf. It uses the HOCON format ( “Human-Optimized Config Object Notation”).
+
+关于DEV/PROD模式
+
+通过application.mode配置属性切换DEV或PROD。
+
+For an application’s config, Java system properties override settings found in the configuration file. This supports specifying config options on the command line. ie. play -Dkey=value run
+@see https://www.playframework.com/documentation/2.3.x/Configuration
+我们指定启动模式。PROD 这个是和code里一样。
+start -Drun.mode=PROD -Dhttp.port=8086

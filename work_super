@@ -1,0 +1,48 @@
+﻿idea部署war包到本地tomcat
+Run->Edit Configurations-> add Tomcat Server->Local
+
+
+
+idea使用maven出war包
+主界面左下角->Maven Project->myproject(root)->Lifecycle->package
+
+
+quick start kafka
+ln -s /usr/local/jdk-9.0.4/bin/java /usr/bin/java
+bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 3 --partitions 1 --topic xxsuper-replicated-topic
+bin/kafka-topics.sh --describe --zookeeper localhost:2181 --topic xxsuper-replicated-topic
+bin/kafka-topics.sh --list --zookeeper localhost:2181
+#open new window
+bin/kafka-console-producer.sh --broker-list localhost:9092 --topic xxsuper-replicated-topic
+#open new window
+bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --from-beginning --topic xxsuper-replicated-topic
+
+#取出最早的十条
+bin/kafka-console-consumer.sh --bootstrap-server 192.168.10.18:6667  --from-beginning --max-messages 10 --topic 115.batch
+
+
+echo -e "foo\nbar" > test.txt
+bin/connect-standalone.sh config/connect-standalone.properties config/connect-file-source.properties config/connect-file-sink.properties
+
+
+开放端口
+iptables -I INPUT -p tcp --dport 9092 -j ACCEPT
+iptables -I INPUT -p tcp --dport 9093 -j ACCEPT
+iptables -I INPUT -p tcp --dport 9094 -j ACCEPT
+iptables -I INPUT -p tcp --dport 2181 -j ACCEPT
+iptables-save 
+查看开放的端口
+iptables -nL
+
+
+
+##################/tmp####################
+  Document doc = null;
+
+        if (md.getDomainMap().containsKey("sign_db") && "1".equals(md.getDomainMap().get("sign_db"))) {
+            md.addDebugList("从mongo中获取签名");
+            doc = SignDbUtils.findSignOne(Filters.eq("sign", sign), null);
+
+            md.addDebugList("存在shop[" + shopId + "]，合并shop信息");
+
+        }
