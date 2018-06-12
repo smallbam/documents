@@ -25,3 +25,19 @@ The purpose of this document is to provide a comparison between STS Gradle and B
 	<context:component-scan base-package="cn.teddy.number_api" />
 	<context:component-scan base-package="cn.teddy.number_service" />
 @Autowired
+
+控制反转（Inversion of Control，英文缩写为IoC）把创建对象的权利交给框架,是框架的重要特征，并非面向对象编程的专用术语。它包括依赖注入（Dependency Injection，简称DI）和依赖查找（Dependency Lookup）
+
+
+springboot run example
+Type mvn spring-boot:run from the root project directory to start the application. To gracefully exit the application, press ctrl-c.
+Save your pom.xml and run mvn package from the command line, as follows:
+$ mvn package
+If you want to peek inside, you can use jar tvf, as follows:
+$ jar tvf target/myproject-0.0.1-SNAPSHOT.jar
+You should also see a much smaller file named myproject-0.0.1-SNAPSHOT.jar.original in the target directory. This is the original jar file that Maven created before it was repackaged by Spring Boot.
+To run that application, use the java -jar command, as follows:
+$ java -jar target/myproject-0.0.1-SNAPSHOT.jar
+As before, to exit the application, press ctrl-c.
+The default log configuration echoes messages to the console as they are written. By default, ERROR-level, WARN-level, and INFO-level messages are logged. You can also enable a “debug” mode by starting your application with a --debug flag.
+$ java -jar myapp.jar --debug

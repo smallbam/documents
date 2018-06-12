@@ -28,12 +28,14 @@ size=10M
 
 
 
-查看当前用户
+#查看当前用户
 whoami
-查看登陆用户
+#查看登陆用户
 who
-查看用户组
+#查看用户组
 groups username
+#修改密码
+passwd
 
 uname -a
 head -n 1 /etc/issue
@@ -60,14 +62,27 @@ iptables -L
 ps auwx | grep java
 
 
-检查nginx配置
-/usr/local/nginx/sbin/nginx -t
-启动nginx
-/usr/local/nginx/sbin/nginx -c /usr/local/nginx/conf/nginx.conf
-关闭nginx
-/usr/local/nginx/sbin/nginx -s quit
-重新加载nginx配置
-/usr/local/nginx/sbin/nginx -s reload
+
 
 netstat -ntupl
 ps axw -o pid,ppid,user,%cpu,vsz,wchan,command | egrep '(nginx|PID)'
+netstat -ntp |grep -i "80" | wc -l
+
+#开放端口
+iptables -I INPUT -p tcp --dport 9092 -j ACCEPT
+iptables -I INPUT -p tcp --dport 9093 -j ACCEPT
+iptables -I INPUT -p tcp --dport 9094 -j ACCEPT
+iptables -I INPUT -p tcp --dport 2181 -j ACCEPT
+iptables-save 
+#查看开放的端口
+iptables -nL
+
+#赋权
+sudo chown -R wangyanchao /var/log/mongo/
+
+// TODO
+select/poll/epoll/kqueue
+
+
+
+

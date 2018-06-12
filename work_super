@@ -1,17 +1,62 @@
-﻿idea部署war包到本地tomcat
+﻿ea部署war包到本地tomcat
 Run->Edit Configurations-> add Tomcat Server->Local
-
-
-
-idea使用maven出war包
+#idea添加右上角快捷按钮
+Preferences->Appearance&Behavior->Menus and Toolbars->Navigation Bar Toolbar->NavBarVcsGroup->VcsNavBarTooBarActions->Add After
+#idea使用maven出war包
 主界面左下角->Maven Project->myproject(root)->Lifecycle->package
+
+#正式服kafka集群
+192.168.10.18 tmhdp-node-20180122-kafka-1.teddymobile.net
+192.168.10.19 tmhdp-node-20180122-kafka-2.teddymobile.net
+192.168.10.20 tmhdp-node-20180122-kafka-3.teddymobile.net
+
+
+#北京跳板机tnt-testsrv-1
+wangyanchao@39.107.225.169:/home/wangyanchao
+#北京测试机tnt-testsrv-2
+ssh wangyanchao@47.94.5.212:/home/wangyanchao
+#北京kafka测试机tnt-test-kafka
+wangyanchao@192.168.20.152:/home/wangyanchao
+#tnt-kafka 注意正式服
+root@192.168.20.154:/home/wangyanchao
+s8HF0pkv
+#tnt-online运行mongo库 注意正式服 
+wangyanchao@120.92.44.92:/home/wangyanchao
+#web-110s-1
+root@192.168.20.95:/home/wangyanchao
+t3O6cRvw
+
+
+###常规工作内容###
+#为Intex提供sdk
+#https://jira.teddymobile.net/browse/FRONTOT-4
+1,Intex是印度厂商
+2,复制number_service/resources/json/demo.in.json /number_service/resources/json/intex.in.json
+3,修改intex.in.json里cache_prefix， firm， secret_password
+4,number_service/resources/json/default.json里"domain"新增 "intex.in":"intex.in.json"
+
+
+http://vip.test.teddymobile.net/home.do
+47.94.5.212
 
 
 quick start kafka
 ln -s /usr/local/jdk-9.0.4/bin/java /usr/bin/java
 bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 3 --partitions 1 --topic xxsuper-replicated-topic
-bin/kafka-topics.sh --describe --zookeeper localhost:2181 --topic xxsuper-replicated-topic
-bin/kafka-topics.sh --list --zookeeper localhost:2181
+
+#查看所有主题
+bin/kafka-topics.sh --list --zookeeper 192.168.10.18:2181
+
+#查看某一主题详情
+bin/kafka-topics.sh --describe --zookeeper 192.168.10.18:2181 --topic 115.batch
+
+#查看所有的组
+bin/kafka-consumer-groups.sh --bootstrap-server 192.168.10.18:6667 --list
+
+#查看指定组的偏移量
+bin/kafka-consumer-groups.sh --bootstrap-server 192.168.10.18:6667 --describe --group batch115.1
+bin/kafka-consumer-groups.sh --bootstrap-server 192.168.20.152:9092 --describe --group batch_info_group1
+
 #open new window
 bin/kafka-console-producer.sh --broker-list localhost:9092 --topic xxsuper-replicated-topic
 #open new window
@@ -20,29 +65,70 @@ bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --from-beginning
 #取出最早的十条
 bin/kafka-console-consumer.sh --bootstrap-server 192.168.10.18:6667  --from-beginning --max-messages 10 --topic 115.batch
 
-
 echo -e "foo\nbar" > test.txt
 bin/connect-standalone.sh config/connect-standalone.properties config/connect-file-source.properties config/connect-file-sink.properties
 
+#清空kafaka
+rm -rf /data/kafka/logs/*
+rm -rf /data/zookeeper/*
 
-开放端口
-iptables -I INPUT -p tcp --dport 9092 -j ACCEPT
-iptables -I INPUT -p tcp --dport 9093 -j ACCEPT
-iptables -I INPUT -p tcp --dport 9094 -j ACCEPT
-iptables -I INPUT -p tcp --dport 2181 -j ACCEPT
-iptables-save 
-查看开放的端口
-iptables -nL
 
 
 
 ##################/tmp####################
-  Document doc = null;
+#启动kafka消费
+nohup java -cp batch-info-consumer-1.0.0-jar-with-dependencies.jar cn.teddy.consumer.KafkaConsumerMain > consumer.log 2>&1 &
 
-        if (md.getDomainMap().containsKey("sign_db") && "1".equals(md.getDomainMap().get("sign_db"))) {
-            md.addDebugList("从mongo中获取签名");
-            doc = SignDbUtils.findSignOne(Filters.eq("sign", sign), null);
+nohup java -cp /home/wangyanchao/115/batch-info-consumer-1.0.0-jar-with-dependencies.jar cn.teddy.consumer.KafkaConsumerMain > /home/wangyanchao/115/consumer.log 2>&1 &
+nohup java -cp /home/wangyanchao/letv/batch-info-consumer-1.0.0-jar-with-dependencies.jar cn.teddy.consumer.KafkaConsumerMain > /home/wangyanchao/letv/consumer.log 2>&1 &
 
-            md.addDebugList("存在shop[" + shopId + "]，合并shop信息");
+#统计kafka消费日志
+cat consumer.log | grep "cn.teddy.consumer.ConsumerMonitor" | awk -F "|" '{print$2,$4,$6,$8}'> monitor.log
+cat consumer.log | grep "cn.teddy.consumer.ConsumerMonitor" | awk -F "|" '{print $2,"\t",$4,"\t",$6,"\t",$8,"\t",$10}'> monitor.log
 
-        }
+#json数组结构
+"no_encode": ["v4/info","v4/batch_info","v4/sms_menu","v4/detail_menu"],
+
+NHT（Non Human Traffic，非人类的访问）
+
+https://www.ipip.net/free_download/
+
+#################test case##############
+1，登陆vip后台
+2，号码明细查询->号码查询与编辑
+来源：m_confirm 对应 source识别
+     342302100 对应 compare识别
+     321002100 对应 黄页不识别
+     321004230 对应 标记识别
+测试号码有三个
+18801115000 这个新黄页不出库
+18801115500 这个新黄页出库
+18801115550 这个没有新黄页
+
+
+ "prifix_1": "yellow",
+ "prifix_2": "marker",
+ "prifix_3": "yellow_marker",
+
+ 1100 liebao
+ 1200 liebao
+ 1300 truecaller
+ 1400 showcaller
+ 1500 callapp
+ 1600 xiaomi
+ 1700 hiya
+
+#次数和ip
+ [root@web-110s-1 ~]# cat /data/wwwlogs/110-s.api.teddymobile.cn.log | grep "07/May" |awk '{print $1}'|sort |uniq -c|sort -nrk 1|head -n 10
+  91231 61.191.56.249
+  90272 61.191.56.243
+  90235 61.191.56.242
+  90117 61.191.56.247
+  90106 61.191.56.244
+  90085 61.191.56.240
+  89969 61.191.56.246
+  89876 61.191.56.245
+  63933 111.13.111.221
+  62776 111.13.111.218
+
+

@@ -154,3 +154,22 @@ NUMA：NUMA是多核心CPU架构中的一种，其全称为Non-Uniform Memory Ac
 上面文章中最后使用numactl –interleave命令就是指定其为交叉共享模式。
 
 
+#注意数据类型
+db.numbers.find({"phone":{"$eq":"10086"}});
+db.numbers.update({"phone":{"$eq":"10086"}},{"$set":{"name_v2_score":"11"}},false,false);
+db.numbers.find({"phone":{"$eq":"10086"}, "name_v2_score" : {$type : "double"}})
+db.numbers.find({"phone":{"$eq":"10086"}, "name_v2_score" : {$type : "string"}})
+#查找，更新，删除
+db.getCollection('numbers').update({"phone":{"$eq":"18801115266"}},{"$set":{"name_v2":"测试融合接口","name_v2_score":"0.80"}},false,false);
+db.getCollection('numbers').update({"phone":"18801115266"},{$unset:{"name_v2":"","name_v2_score":""}},{multi:true})
+db.getCollection('numbers').find({"phone":"00911165660112"})
+db.numbers.update({"phone":"18801115550"},{$unset:{"name_v2":"","name_v2_score":""}},{multi:true})
+db.numbers.update({"phone":{"$eq":"18801115000"}},{"$set":{"name_v2":"测试融合接口","name_v2_score":"0.75"}},false,false);
+db.numbers.find({"phone":"18801115000"})
+
+#查看集合索引
+db.getCollection('signs').getIndexes()
+
+#组合条件查询
+db.getCollection('shop').find({country:"IN",industry:{"$ne":"", $exists: true }})
+
