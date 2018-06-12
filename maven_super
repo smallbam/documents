@@ -1,0 +1,10 @@
+#跳过test打包
+mvn package -DskipTests
+mvn package -Dmaven.test.skip=true
+
+#测试环境打包
+mvn package -Ptest
+
+#如何运行指定的类?
+mvn -Dtest=KafkaConsumerHttpRequestTest test
+mvn surefire:test -Dtest=KafkaConsumerHttpRequestTest
